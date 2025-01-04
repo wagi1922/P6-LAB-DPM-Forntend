@@ -1,11 +1,13 @@
 import React, {useState} from "react";
-import {Image, StyleSheet, Text, TextInput, TouchableOpacity} from "react-native";
+import {Image, StyleSheet, Text, TextInput} from "react-native";
 import {useRouter} from "expo-router";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ThemedView} from "@/components/ThemedView";
-import {Button, Dialog, PaperProvider, Portal} from "react-native-paper";
+import {Dialog, PaperProvider, Portal} from "react-native-paper";
 import API_URL from "../../config/config";
+import { Button } from '@rneui/themed';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function LoginScreen() {
     const [username, setUsername] = useState("");
@@ -41,8 +43,11 @@ export default function LoginScreen() {
     return (
         <PaperProvider>
             <ThemedView style={styles.container}>
-                <Image source={require("../../assets/images/icon.png")} style={styles.logo} />
-                <Text style={styles.title}>Welcome Back!</Text>
+                <LinearGradient
+                colors={['#C7FFD8', 'transparent']}
+                style={styles.background}/>
+                <Image source={require("../../assets/images/Focus-Time.png")} style={styles.logo} />
+                <Text style={styles.title}>Belajar dengan fokus dan juga seru!</Text>
                 <Text style={styles.subtitle}>Log in to continue</Text>
                 <TextInput
                     style={styles.input}
@@ -58,12 +63,18 @@ export default function LoginScreen() {
                     onChangeText={setPassword}
                     secureTextEntry
                 />
-                <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-                    <Text style={styles.loginButtonText}>Login</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.registerButton} onPress={() => router.push("/auth/RegisterScreen")}>
-                    <Text style={styles.registerButtonText}>Register</Text>
-                </TouchableOpacity>
+                <Button
+                    title="Login"
+                    buttonStyle={styles.buttonStyleLogin}
+                    containerStyle={styles.buttonbox}
+                    titleStyle={styles.loginButtonText}
+                    onPress={handleLogin}/>
+                <Button
+                    title="Belum Punya Akun? Daftar sekarang"
+                    buttonStyle={styles.buttonStyleSingUp}
+                    containerStyle={styles.buttonbox}
+                    titleStyle={styles.registerButtonText}
+                    onPress={() => router.push("/auth/RegisterScreen")}/>
                 <Portal>
                     <Dialog visible={dialogVisible} onDismiss={handleDialogDismiss}>
                         <Dialog.Title>{isSuccess ? "Success" : "Login Failed"}</Dialog.Title>
@@ -76,7 +87,7 @@ export default function LoginScreen() {
                     </Dialog>
                 </Portal>
             </ThemedView>
-        </PaperProvider>
+        </PaperProvider>        
     );
 }
 
@@ -86,16 +97,17 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 16,
-        backgroundColor: "#f9f9f9",
+        backgroundColor: '#ffff',
     },
     logo: {
-        width: 150,
-        height: 150,
+        width: 413,
+        height: 103,
         marginBottom: 24,
         resizeMode: "contain",
+        bottom: 40
     },
     title: {
-        fontSize: 24,
+        fontSize: 17,
         fontWeight: "bold",
         marginBottom: 8,
         color: "#333",
@@ -106,41 +118,52 @@ const styles = StyleSheet.create({
         color: "#666",
     },
     input: {
-        width: "100%",
-        height: 48,
+        width: 300,
+        height: 50,
         borderColor: "#ccc",
         borderWidth: 1,
-        borderRadius: 8,
+        borderRadius: 15,
         paddingHorizontal: 12,
         marginBottom: 16,
         backgroundColor: "#fff",
     },
-    loginButton: {
-        width: "100%",
-        height: 48,
-        backgroundColor: "#007BFF",
-        borderRadius: 8,
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: 16,
-    },
     loginButtonText: {
         color: "#fff",
-        fontSize: 16,
-        fontWeight: "600",
+        fontSize: 15,
+        fontWeight: "regular",
     },
-    registerButton: {
-        width: "100%",
-        height: 48,
-        borderWidth: 1,
-        borderColor: "#007BFF",
-        borderRadius: 8,
+    registerButtonText: {
+        color: "black",
+        fontSize: 15,
+        fontWeight: "regular",
+    },
+    buttonStyleLogin:{
+        backgroundColor: '#161D6F',
+        borderWidth: 2,
+        borderColor: '#161D6F',
+        borderRadius: 20,
         justifyContent: "center",
         alignItems: "center",
     },
-    registerButtonText: {
-        color: "#007BFF",
-        fontSize: 16,
-        fontWeight: "600",
+    buttonStyleSingUp:{
+        backgroundColor: '#98DED9',
+        borderWidth: 2,
+        borderColor: '#98DED9',
+        borderRadius: 20,
+        justifyContent: "center",
+        alignItems: "center",
     },
+    buttonbox:{
+        width: 300,
+        height:50,
+        marginHorizontal: 50,
+        marginVertical: 10,
+    },
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        height: 300,
+      },
 });

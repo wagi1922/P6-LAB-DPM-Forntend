@@ -1,10 +1,11 @@
 import React, {useState} from "react";
-import {StyleSheet, Text, TextInput, TouchableOpacity} from "react-native";
+import {StyleSheet, Text, TextInput} from "react-native";
 import {useRouter} from "expo-router";
 import axios from "axios";
 import {ThemedView} from "@/components/ThemedView";
-import {Button, Dialog, PaperProvider, Portal} from "react-native-paper";
+import {Dialog, PaperProvider, Portal} from "react-native-paper";
 import API_URL from "../../config/config";
+import { Button } from '@rneui/themed';
 
 export default function RegisterScreen() {
     const [username, setUsername] = useState("");
@@ -52,12 +53,18 @@ export default function RegisterScreen() {
                     onChangeText={setPassword}
                     secureTextEntry
                 />
-                <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-                    <Text style={styles.registerButtonText}>Register</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.loginButton} onPress={() => router.push("/auth/LoginScreen")}>
-                    <Text style={styles.loginButtonText}>Login</Text>
-                </TouchableOpacity>
+                <Button
+                    title="Sing UP"
+                    buttonStyle={styles.buttonStyleLogin}
+                    containerStyle={styles.buttonbox}
+                    titleStyle={styles.loginButtonText}
+                    onPress={handleRegister}/>
+                <Button
+                    title="LOG IN"
+                    buttonStyle={styles.buttonStyleSingUp}
+                    containerStyle={styles.buttonbox}
+                    titleStyle={styles.registerButtonText}
+                    onPress={() => router.push("/auth/LoginScreen")}/>
                 <Portal>
                     <Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
                         <Dialog.Title>Registration Failed</Dialog.Title>
@@ -103,32 +110,36 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         backgroundColor: "#fff",
     },
-    registerButton: {
-        width: "100%",
-        height: 48,
-        backgroundColor: "#007BFF",
-        borderRadius: 8,
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: 16,
+    loginButtonText: {
+        color: "#fff",
+        fontSize: 15,
+        fontWeight: "regular",
     },
     registerButtonText: {
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: "600",
+        color: "black",
+        fontSize: 15,
+        fontWeight: "regular",
     },
-    loginButton: {
-        width: "100%",
-        height: 48,
-        borderWidth: 1,
-        borderColor: "#007BFF",
-        borderRadius: 8,
+    buttonStyleLogin:{
+        backgroundColor: '#161D6F',
+        borderWidth: 2,
+        borderColor: '#161D6F',
+        borderRadius: 20,
         justifyContent: "center",
         alignItems: "center",
     },
-    loginButtonText: {
-        color: "#007BFF",
-        fontSize: 16,
-        fontWeight: "600",
+    buttonStyleSingUp:{
+        backgroundColor: '#98DED9',
+        borderWidth: 2,
+        borderColor: '#98DED9',
+        borderRadius: 20,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    buttonbox:{
+        width: 300,
+        height:50,
+        marginHorizontal: 50,
+        marginVertical: 10,
     },
 });
